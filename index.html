@@ -18,7 +18,7 @@ body{margin:0;background:var(--fond);color:var(--encre);
   display:flex;flex-direction:column;height:100vh;overflow:hidden}
 .mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
 button,select{font:inherit;color:inherit}
-.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;overflow:hidden;min-width:0;
   padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));
   background:var(--blanc);border-bottom:1px solid var(--filet);flex:0 0 auto}
 .bas{border-bottom:0;border-top:1px solid var(--filet);padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
@@ -33,17 +33,21 @@ select{height:44px;padding:0 12px;border:1px solid var(--filet2);border-radius:2
 .b.p{border:0;background:var(--vert)}
 .b:disabled{border-color:var(--filet2);color:var(--tertiaire);cursor:not-allowed}
 .b.icone{width:44px;padding:0;border-color:var(--filet2);font-size:16px}
-.roles{display:flex;gap:4px;padding:4px;border:1px solid var(--filet);border-radius:9999px;background:var(--blanc)}
+.roles{display:flex;gap:4px;padding:4px;border:1px solid var(--filet);border-radius:9999px;
+  background:var(--blanc);min-width:0;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.roles::-webkit-scrollbar{display:none}
+.roles button{white-space:nowrap}
 .roles button{padding:5px 13px;border:0;border-radius:9999px;background:transparent;font:600 13px/19px inherit;cursor:pointer}
 .roles button[aria-pressed="true"]{background:var(--encre);color:var(--blanc)}
-.vide{flex:1 1 auto}
+.vide{display:none}
 main{flex:1 1 auto;overflow:auto;display:flex;justify-content:center;align-items:flex-start;
   padding:20px 16px 28px;overscroll-behavior:contain}
 #cadre{background:var(--blanc);border:1px solid var(--filet);overflow:hidden;flex:0 0 auto}
 #cadre.tel{border-radius:28px}
 iframe{display:block;border:0}
 .note{font-size:12px;line-height:18px;color:var(--second)}
-.fil{font-size:12px;color:var(--tertiaire);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.fil{flex:1 1 180px;min-width:0;font-size:12px;color:var(--tertiaire);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
 #journal{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:var(--blanc);
   border-left:1px solid var(--filet);display:none;flex-direction:column;z-index:20}
 #journal.ouvert{display:flex}
@@ -56,7 +60,7 @@ iframe{display:block;border:0}
   display:none;z-index:30}
 #toast.vu{display:block}
 #toast strong{display:block;font-size:14px;line-height:20px}
-@media (max-width:1024px){
+@media (max-width:1280px){
   .fil{display:none}
   .bar{gap:8px;padding-top:6px;padding-bottom:6px}
   .roles{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
@@ -88,12 +92,11 @@ iframe{display:block;border:0}
   <div class="roles" id="roles" role="group" aria-label="Rôle simulé"></div>
   <label class="ch">Écran <select id="ecran"></select></label>
   <label class="ch">État <select id="etat"></select></label>
-  <span class="vide"></span>
-  <span class="fil" id="fil"></span>
   <button class="b" id="echelle" title="Ajuster la planche à la fenêtre ou la voir à sa taille réelle">
     <span class="mono" id="zoom">100 %</span></button>
   <button class="b icone" id="retour" title="Écran précédent" aria-label="Écran précédent">←</button>
   <button class="b" id="ouvrirJournal"><span class="lbl">Journal</span> <span class="mono" id="compteur">0</span></button>
+  <span class="fil" id="fil"></span>
 </div>
 
 <main><div id="cadre"><iframe id="vue" title="Écran de démonstration"></iframe></div></main>
@@ -149,7 +152,8 @@ function remplirEcrans(){
                     .sort((a,b) => CAT[a].t.localeCompare(CAT[b].t,'fr'));
   $('#ecran').innerHTML = liste.map(n => `<option value="${n}">${CAT[n].t}</option>`).join('')
     + `<optgroup label="Tous les écrans">` +
-    noms.slice().sort((a,b)=>a.localeCompare(b,'fr')).map(n=>`<option value="${n}">${n}</option>`).join('')
+    noms.slice().sort((a,b)=>CAT[a].t.localeCompare(CAT[b].t,'fr'))
+      .map(n=>`<option value="${n}">${CAT[n].t}</option>`).join('')
     + `</optgroup>`;
 }
 
