@@ -37,9 +37,9 @@ select{height:44px;padding:0 12px;border:1px solid var(--filet2);border-radius:2
 .roles button{padding:5px 13px;border:0;border-radius:9999px;background:transparent;font:600 13px/19px inherit;cursor:pointer}
 .roles button[aria-pressed="true"]{background:var(--encre);color:var(--blanc)}
 .vide{flex:1 1 auto}
-main{flex:1 1 auto;overflow:auto;display:flex;justify-content:center;padding:20px 16px 28px}
-#cadre{background:var(--blanc);border:1px solid var(--filet);overflow:hidden;flex:0 0 auto;
-  transform-origin:top center}
+main{flex:1 1 auto;overflow:auto;display:flex;justify-content:center;align-items:flex-start;
+  padding:20px 16px 28px;overscroll-behavior:contain}
+#cadre{background:var(--blanc);border:1px solid var(--filet);overflow:hidden;flex:0 0 auto}
 #cadre.tel{border-radius:28px}
 iframe{display:block;border:0}
 .note{font-size:12px;line-height:18px;color:var(--second)}
@@ -56,7 +56,29 @@ iframe{display:block;border:0}
   display:none;z-index:30}
 #toast.vu{display:block}
 #toast strong{display:block;font-size:14px;line-height:20px}
-@media (max-width:860px){.fil,.marque span{display:none}}
+@media (max-width:1024px){
+  .fil{display:none}
+  .bar{gap:8px;padding-top:6px;padding-bottom:6px}
+  .roles{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+  .roles::-webkit-scrollbar{display:none}
+  .roles button{white-space:nowrap;padding:5px 11px;font-size:12px}
+  select{height:40px;max-width:150px;font-size:13px}
+  .b{height:40px;padding:0 13px;font-size:13px}
+  .b.icone{width:40px;padding:0}
+  label.ch{gap:4px}
+  main{padding:12px 8px 20px}
+}
+@media (max-width:760px){
+  .marque span{display:none}
+  label.ch span:first-child{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  label.ch{flex:1 1 calc(50% - 6px);min-width:0}
+  label.ch select{width:100%;max-width:none}
+  .vide{display:none}
+  #journal{width:100%;border-left:0}
+  .note{flex-basis:100%;max-height:38px;overflow:hidden}
+  .bas label.ch{flex:0 0 auto}
+  .bas label.ch select{width:auto;max-width:132px}
+}
 </style>
 
 </head>
@@ -68,8 +90,10 @@ iframe{display:block;border:0}
   <label class="ch">État <select id="etat"></select></label>
   <span class="vide"></span>
   <span class="fil" id="fil"></span>
+  <button class="b" id="echelle" title="Ajuster la planche à la fenêtre ou la voir à sa taille réelle">
+    <span class="mono" id="zoom">100 %</span></button>
   <button class="b icone" id="retour" title="Écran précédent" aria-label="Écran précédent">←</button>
-  <button class="b" id="ouvrirJournal">Journal <span class="mono" id="compteur">0</span></button>
+  <button class="b" id="ouvrirJournal"><span class="lbl">Journal</span> <span class="mono" id="compteur">0</span></button>
 </div>
 
 <main><div id="cadre"><iframe id="vue" title="Écran de démonstration"></iframe></div></main>
@@ -172,6 +196,12 @@ function aller(n, origine, sansPile){
   if(origine) noter(n, origine, 'affichage de l’écran');
 }
 $('#retour').addEventListener('click', () => { const p = pile.pop(); if(p) aller(p,'bouton retour',true); });
+$('#echelle').addEventListener('click', () => {
+  echelle = echelle === 'ajuster' ? 'reelle' : 'ajuster';
+  $('#echelle').setAttribute('aria-pressed', echelle === 'reelle');
+  dimensionner();
+  noter(courant, 'échelle', echelle === 'reelle' ? 'planche à sa taille réelle' : 'planche ajustée à la fenêtre');
+});
 
 function dimensionner(){
   const {w,h} = CAT[courant];
@@ -180,11 +210,15 @@ function dimensionner(){
   f.style.width = w+'px'; f.style.height = h+'px';
   cadre.classList.toggle('tel', w <= 400);
   const dispo = document.querySelector('main').clientWidth - 32;
-  const k = Math.min(1, dispo / w);
-  cadre.style.width = w+'px'; cadre.style.height = h+'px';
-  cadre.style.transform = 'scale('+k+')';
-  cadre.style.marginBottom = (h*k - h) + 'px';
+  // « ajuster » met la planche à l'échelle de la fenêtre ; « 100 % » la laisse à sa taille
+  const k = echelle === 'reelle' ? 1 : Math.min(1, dispo / w);
+  f.style.transformOrigin = 'top left';
+  f.style.transform = 'scale('+k+')';
+  cadre.style.width = Math.round(w*k)+'px';
+  cadre.style.height = Math.round(h*k)+'px';
+  $('#zoom').textContent = k === 1 ? '100 %' : Math.round(k*100)+' %';
 }
+let echelle = 'ajuster';
 addEventListener('resize', () => courant && dimensionner());
 
 // ------------------------------------------------- interception dans l'écran
