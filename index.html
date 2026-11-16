@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Démonstration Bilan&Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
+<style>
+:root{
+  --encre:#0F120D; --second:#6B6F6A; --tertiaire:#8A8F86; --filet:#E4E6E1; --filet2:#D5DAD0;
+  --os:#EDEEEA; --fond:#F3F4F1; --blanc:#FFFFFF; --vert:#A8E05F; --vert-texte:#1E7A3B;
+  --ambre:#8A5A12; --rouge:#C42F37;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:14px;line-height:21px;
+  display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+button,select{font:inherit;color:inherit}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));
+  background:var(--blanc);border-bottom:1px solid var(--filet);flex:0 0 auto}
+.bas{border-bottom:0;border-top:1px solid var(--filet);padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
+.marque{display:flex;align-items:center;gap:8px;font-weight:700;white-space:nowrap;letter-spacing:-.2px}
+.pastille{width:22px;height:14px;border-radius:7px;background:var(--encre);position:relative;flex:0 0 auto}
+.pastille::after{content:"";position:absolute;right:0;top:0;width:11px;height:14px;border-radius:7px;background:var(--vert)}
+label.ch{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--second);white-space:nowrap}
+select{height:44px;padding:0 12px;border:1px solid var(--filet2);border-radius:22px;background:var(--blanc);
+  max-width:260px;cursor:pointer}
+.b{height:44px;padding:0 17px;border:1px solid var(--encre);border-radius:22px;background:var(--blanc);
+  font-weight:600;cursor:pointer;white-space:nowrap}
+.b.p{border:0;background:var(--vert)}
+.b:disabled{border-color:var(--filet2);color:var(--tertiaire);cursor:not-allowed}
+.b.icone{width:44px;padding:0;border-color:var(--filet2);font-size:16px}
+.roles{display:flex;gap:4px;padding:4px;border:1px solid var(--filet);border-radius:9999px;background:var(--blanc)}
+.roles button{padding:5px 13px;border:0;border-radius:9999px;background:transparent;font:600 13px/19px inherit;cursor:pointer}
+.roles button[aria-pressed="true"]{background:var(--encre);color:var(--blanc)}
+.vide{flex:1 1 auto}
+main{flex:1 1 auto;overflow:auto;display:flex;justify-content:center;padding:20px 16px 28px}
+#cadre{background:var(--blanc);border:1px solid var(--filet);overflow:hidden;flex:0 0 auto;
+  transform-origin:top center}
+#cadre.tel{border-radius:28px}
+iframe{display:block;border:0}
+.note{font-size:12px;line-height:18px;color:var(--second)}
+.fil{font-size:12px;color:var(--tertiaire);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+#journal{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:var(--blanc);
+  border-left:1px solid var(--filet);display:none;flex-direction:column;z-index:20}
+#journal.ouvert{display:flex}
+#journal header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--filet)}
+#lignes{flex:1 1 auto;overflow:auto;padding:0 16px 16px}
+#lignes div{padding:9px 0;border-bottom:1px solid var(--filet);font-size:13px;line-height:19px}
+#lignes .q{font-size:11px;color:var(--tertiaire)}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);max-width:min(560px,92vw);
+  background:var(--blanc);border:1px solid var(--filet2);border-radius:14px;padding:12px 16px;
+  display:none;z-index:30}
+#toast.vu{display:block}
+#toast strong{display:block;font-size:14px;line-height:20px}
+@media (max-width:860px){.fil,.marque span{display:none}}
+</style>
+
+</head>
+<body>
+<div class="bar">
+  <span class="marque"><span class="pastille"></span><span>Bilan&amp;Co · démonstration</span></span>
+  <div class="roles" id="roles" role="group" aria-label="Rôle simulé"></div>
+  <label class="ch">Écran <select id="ecran"></select></label>
+  <label class="ch">État <select id="etat"></select></label>
+  <span class="vide"></span>
+  <span class="fil" id="fil"></span>
+  <button class="b icone" id="retour" title="Écran précédent" aria-label="Écran précédent">←</button>
+  <button class="b" id="ouvrirJournal">Journal <span class="mono" id="compteur">0</span></button>
+</div>
+
+<main><div id="cadre"><iframe id="vue" title="Écran de démonstration"></iframe></div></main>
+
+<div class="bar bas">
+  <label class="ch">Parcours <select id="parcours"></select></label>
+  <button class="b" id="prec">Précédent</button>
+  <button class="b p" id="suiv">Étape suivante</button>
+  <span class="mono" id="pas" style="font-size:12px;color:var(--second)"></span>
+  <span class="note" id="consigne"></span>
+</div>
+
+<div id="journal" aria-label="Journal de vérification des clics">
+  <header><strong style="flex-grow:1">Journal des clics</strong>
+    <button class="b" id="exporter">Copier</button>
+    <button class="b icone" id="fermerJournal" aria-label="Fermer">×</button></header>
+  <div id="lignes"></div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<script>
+const CAT = {"APropos": {"t": "À propos de Bilan&Co", "w": 1440, "h": 2600, "e": "site"}, "AccueilCabinet": {"t": "Accueil du cabinet", "w": 1440, "h": 1060, "e": "acces"}, "Aide": {"t": "Centre d'aide", "w": 1440, "h": 2120, "e": "site"}, "Blog": {"t": "Site · Blog", "w": 1440, "h": 2900, "e": "site"}, "BlogArticle": {"t": "Article · Échéances fiscales du mois", "w": 1440, "h": 2780, "e": "site"}, "CabGED": {"t": "GED du cabinet", "w": 1440, "h": 860, "e": "cabinet"}, "CabGestion": {"t": "Gestion interne du cabinet", "w": 1440, "h": 1100, "e": "cabinet"}, "CabMessagerie": {"t": "Messagerie du cabinet", "w": 1440, "h": 960, "e": "cabinet"}, "CabMigration": {"t": "Reprise d'un dossier", "w": 1440, "h": 1140, "e": "cabinet"}, "CabProfil": {"t": "Mon profil", "w": 1440, "h": 1480, "e": "cabinet"}, "CabTableaux": {"t": "Tableaux de bord du cabinet", "w": 5604, "h": 1100, "e": "cabinet"}, "Confidentialite": {"t": "Politique de confidentialité", "w": 1440, "h": 1940, "e": "site"}, "Connexion": {"t": "Connexion", "w": 1440, "h": 900, "e": "acces"}, "Contact": {"t": "Site · Contact et rendez-vous", "w": 1440, "h": 1560, "e": "site"}, "ContactCabinet": {"t": "Site · Contact experts-comptables", "w": 1440, "h": 1920, "e": "site"}, "ContactEntreprise": {"t": "Site · Contact entreprises", "w": 1440, "h": 1920, "e": "site"}, "Declarations": {"t": "Déclarations fiscales", "w": 1440, "h": 1160, "e": "cabinet"}, "DosBanques": {"t": "Banques et mobile money", "w": 1440, "h": 860, "e": "cabinet"}, "DosCompta": {"t": "Comptabilité du dossier", "w": 1440, "h": 980, "e": "cabinet"}, "DosDeclarations": {"t": "Déclarations du dossier", "w": 1440, "h": 980, "e": "cabinet"}, "DosDossier": {"t": "Mon dossier", "w": 1440, "h": 1240, "e": "cabinet"}, "DosEncours": {"t": "Encours et échéancier", "w": 1440, "h": 940, "e": "cabinet"}, "DosEtiquettes": {"t": "Étiquettes et journaux", "w": 1440, "h": 940, "e": "cabinet"}, "DosFacturation": {"t": "Facturation du dossier", "w": 1440, "h": 900, "e": "cabinet"}, "DosFrais": {"t": "Notes de frais du dossier", "w": 1440, "h": 920, "e": "cabinet"}, "DosGestion": {"t": "Gestion comptable du dossier", "w": 1440, "h": 1100, "e": "cabinet"}, "DosPlan": {"t": "Plan comptable", "w": 1440, "h": 880, "e": "cabinet"}, "DosPrevisionnel": {"t": "Gestion prévisionnelle", "w": 1440, "h": 1680, "e": "cabinet"}, "DosRapports": {"t": "Rapports du dossier", "w": 1440, "h": 1020, "e": "cabinet"}, "DosTableau": {"t": "Tableau de bord du dossier", "w": 1440, "h": 980, "e": "cabinet"}, "DosTiers": {"t": "Tiers du dossier", "w": 1440, "h": 900, "e": "cabinet"}, "EntAccueil": {"t": "Accueil entreprise", "w": 390, "h": 844, "e": "mobile"}, "EntBureau": {"t": "Accueil entreprise sur ordinateur", "w": 1440, "h": 900, "e": "bureau"}, "EntConnexion": {"t": "Connexion par code (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "EntDepot": {"t": "Déposer une pièce", "w": 390, "h": 844, "e": "mobile"}, "EntFactures": {"t": "Factures clients", "w": 390, "h": 844, "e": "mobile"}, "EntFrais": {"t": "Notes de frais", "w": 390, "h": 844, "e": "mobile"}, "EntMessages": {"t": "Messages avec le cabinet", "w": 390, "h": 844, "e": "mobile"}, "EntNouvelleFacture": {"t": "Nouvelle facture (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "EntPieces": {"t": "Mes pièces (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "EntProfil": {"t": "Profil et réglages (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "EntTresorerie": {"t": "Trésorerie (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "Entreprise": {"t": "Site · Entreprises", "w": 1440, "h": 4740, "e": "site"}, "Etats": {"t": "États financiers", "w": 1440, "h": 2060, "e": "cabinet"}, "ExpertComptable": {"t": "Site · Experts-comptables", "w": 1440, "h": 5080, "e": "site"}, "Inscription": {"t": "Inscription", "w": 1440, "h": 1020, "e": "acces"}, "Inscription1": {"t": "Inscription · étape 1", "w": 1440, "h": 900, "e": "acces"}, "Inscription3": {"t": "Inscription · étape 3", "w": 1440, "h": 960, "e": "acces"}, "Inscription4": {"t": "Inscription · étape 4", "w": 1440, "h": 900, "e": "acces"}, "Main": {"t": "Portefeuille du cabinet", "w": 1440, "h": 900, "e": "cabinet"}, "MentionsLegales": {"t": "Mentions légales", "w": 1440, "h": 1600, "e": "site"}, "MotDePasse": {"t": "Mot de passe oublié", "w": 1440, "h": 900, "e": "acces"}, "Pieces": {"t": "Pièces à traiter", "w": 1440, "h": 1040, "e": "cabinet"}, "ProductionComptable": {"t": "Site · Production comptable", "w": 1440, "h": 4160, "e": "site"}, "Revision": {"t": "Dossier de révision", "w": 1440, "h": 1120, "e": "cabinet"}, "Site": {"t": "Site · Page d'accueil", "w": 1440, "h": 6800, "e": "site"}, "SiteBanques": {"t": "Site · Banques et mobile money", "w": 1440, "h": 3260, "e": "site"}, "SiteFacturation": {"t": "Site · Facturation et notes de frais", "w": 1440, "h": 3220, "e": "site"}, "SiteFactureElectronique": {"t": "Site · Facture électronique", "w": 1440, "h": 3340, "e": "site"}, "SiteGED": {"t": "Site · GED", "w": 1440, "h": 3180, "e": "site"}, "SiteGestionInterne": {"t": "Site · Gestion interne du cabinet", "w": 1440, "h": 3340, "e": "site"}, "SiteImpayes": {"t": "Site · Gestion des impayés", "w": 1440, "h": 3140, "e": "site"}, "SitePilotage": {"t": "Site · Pilotage financier", "w": 1440, "h": 3260, "e": "site"}, "Traitement": {"t": "Traitement d’une pièce", "w": 1440, "h": 1320, "e": "cabinet"}, "DosOuverture": {"t": "Ouverture de l’exercice", "w": 1440, "h": 1420, "e": "cabinet"}, "DosImmobilisations": {"t": "Immobilisations", "w": 1440, "h": 1380, "e": "cabinet"}, "DosImports": {"t": "Imports et exports", "w": 1440, "h": 1300, "e": "cabinet"}, "EntFacture": {"t": "Facture client (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "EntNouveauFrais": {"t": "Nouvelle dépense (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "EntHorsConnexion": {"t": "Envois en attente (téléphone)", "w": 390, "h": 844, "e": "mobile"}, "DosGrandLivre": {"t": "Grand livre", "w": 1440, "h": 960, "e": "cabinet"}, "DosBalance": {"t": "Balance générale", "w": 1440, "h": 1620, "e": "cabinet"}, "DosTVA": {"t": "Contrôle de TVA", "w": 1440, "h": 1320, "e": "cabinet"}, "RevisionControle": {"t": "Contrôle de révision", "w": 1440, "h": 1480, "e": "cabinet"}, "RevisionSynthese": {"t": "Note de synthèse", "w": 1440, "h": 1500, "e": "cabinet"}, "DosRapportEditeur": {"t": "Éditeur de plaquette", "w": 1440, "h": 1220, "e": "cabinet"}, "DosRegles": {"t": "Règles d’affectation", "w": 1440, "h": 1060, "e": "cabinet"}, "DosConfiguration": {"t": "Configuration du dossier", "w": 1440, "h": 1380, "e": "cabinet"}, "Tarifs": {"t": "Site · Tarifs", "w": 1440, "h": 4400, "e": "site"}, "Etats-Bibliotheque": {"t": "Bibliothèque des états", "w": 1440, "h": 4040, "e": "cabinet", "b": "Etats"}, "DosGrandLivre-Vide": {"t": "Grand livre · aucune écriture", "w": 1440, "h": 960, "e": "cabinet", "b": "DosGrandLivre"}, "DosGrandLivre-Chargement": {"t": "Grand livre · chargement", "w": 1440, "h": 960, "e": "cabinet", "b": "DosGrandLivre"}, "DosBalance-Vide": {"t": "Balance · aucune écriture", "w": 1440, "h": 960, "e": "cabinet", "b": "DosBalance"}, "DosBalance-Chargement": {"t": "Balance · chargement", "w": 1440, "h": 960, "e": "cabinet", "b": "DosBalance"}, "DosRegles-Vide": {"t": "Règles d’affectation · aucune règle", "w": 1440, "h": 960, "e": "cabinet", "b": "DosRegles"}, "DosRapportEditeur-Vide": {"t": "Éditeur de plaquette · aucune attestation", "w": 1440, "h": 960, "e": "cabinet", "b": "DosRapportEditeur"}, "RevisionControle-Valide": {"t": "Contrôle de révision validé", "w": 1440, "h": 1520, "e": "cabinet", "b": "RevisionControle"}, "Main-Vide": {"t": "Portefeuille · aucun dossier", "w": 1440, "h": 900, "e": "cabinet", "b": "Main"}, "Main-Chargement": {"t": "Portefeuille · chargement", "w": 1440, "h": 900, "e": "cabinet", "b": "Main"}, "Pieces-Vide": {"t": "Documents · aucune pièce", "w": 1440, "h": 1040, "e": "cabinet", "b": "Pieces"}, "Pieces-Chargement": {"t": "Documents · chargement", "w": 1440, "h": 1040, "e": "cabinet", "b": "Pieces"}, "DosBalance-Desequilibree": {"t": "Balance · déséquilibre", "w": 1440, "h": 960, "e": "cabinet", "b": "DosBalance"}, "Declarations-Erreur": {"t": "Déclarations · dépôts bloqués", "w": 1440, "h": 1160, "e": "cabinet", "b": "Declarations"}, "EntAccueil-Chargement": {"t": "Accueil · chargement", "w": 390, "h": 844, "e": "mobile", "b": "EntAccueil"}, "EntTresorerie-Chargement": {"t": "Trésorerie · chargement", "w": 390, "h": 844, "e": "mobile", "b": "EntTresorerie"}, "EntTresorerie-Alerte": {"t": "Trésorerie · caisse à découvert", "w": 390, "h": 844, "e": "mobile", "b": "EntTresorerie"}, "EntFactures-Vide": {"t": "Factures · aucune facture", "w": 390, "h": 844, "e": "mobile", "b": "EntFactures"}, "EntFactures-Chargement": {"t": "Factures · chargement", "w": 390, "h": 844, "e": "mobile", "b": "EntFactures"}, "EntFrais-Vide": {"t": "Notes de frais · aucune dépense", "w": 390, "h": 844, "e": "mobile", "b": "EntFrais"}, "EntFrais-Chargement": {"t": "Notes de frais · chargement", "w": 390, "h": 844, "e": "mobile", "b": "EntFrais"}, "EntDepot-Erreur": {"t": "Déposer une pièce · envoi refusé", "w": 390, "h": 844, "e": "mobile", "b": "EntDepot"}, "EntHorsConnexion-Vide": {"t": "Envois en attente · file vide", "w": 390, "h": 844, "e": "mobile", "b": "EntHorsConnexion"}, "EntPieces-Vide": {"t": "Mes pièces · aucune pièce", "w": 390, "h": 844, "e": "mobile", "b": "EntPieces"}, "EntMessages-Vide": {"t": "Messages · aucun échange", "w": 390, "h": 844, "e": "mobile", "b": "EntMessages"}, "DosNouveau": {"t": "Nouveau dossier", "w": 1440, "h": 960, "e": "cabinet"}, "DosInvitation": {"t": "Inviter le client", "w": 1440, "h": 1020, "e": "cabinet"}, "Traitement-Suivante": {"t": "Traitement · pièce suivante", "w": 1440, "h": 800, "e": "cabinet", "b": "Traitement"}, "Traitement-Fin": {"t": "Traitement · file vide", "w": 1440, "h": 780, "e": "cabinet", "b": "Traitement"}, "Traitement-Complement": {"t": "Traitement · demander un complément", "w": 1440, "h": 920, "e": "cabinet", "b": "Traitement"}, "EntFactureCreee": {"t": "Facture envoyée", "w": 390, "h": 844, "e": "mobile"}, "EntFraisCree": {"t": "Dépense envoyée", "w": 390, "h": 844, "e": "mobile"}, "EntDepotConfirme": {"t": "Pièce envoyée", "w": 390, "h": 844, "e": "mobile"}, "EntPieces-ActionRequise": {"t": "Mes pièces · action requise", "w": 390, "h": 844, "e": "mobile", "b": "EntPieces"}};
+const PARCOURS = [{"titre": "1 · Acquisition et ouverture d’un dossier", "pas": [{"n": "Site", "c": "Le visiteur arrive sur bilanandco.com."}, {"n": "ExpertComptable", "c": "Page cabinet : l’appel à l’action mène à la création de compte."}, {"n": "ContactCabinet", "c": "Variante : prise de rendez-vous, avec nombre de dossiers et logiciel actuel."}, {"n": "Inscription1", "c": "Création du compte cabinet."}, {"n": "Main", "c": "Portefeuille du cabinet. Le bouton « Nouveau dossier » ouvre l’étape suivante."}, {"n": "DosNouveau", "c": "Étape 1 sur 3 : identité, NINEA 005 412 873, RCCM SN-THS-2019-B-412, exercice."}, {"n": "DosConfiguration", "c": "Étape 2 sur 3 : régimes fiscaux sénégalais et canaux de collecte."}, {"n": "DosInvitation", "c": "Étape 3 sur 3 : code NDIAYE-7K2P, trois invités, message WhatsApp."}, {"n": "EntConnexion", "c": "Côté cliente : connexion par le code reçu sur le téléphone."}, {"n": "EntBureau", "c": "Même espace ouvert sur ordinateur."}]}, {"titre": "2a · Production : valider et enchaîner", "pas": [{"n": "Pieces", "c": "File des pièces à traiter du dossier."}, {"n": "Traitement", "c": "Imputation d’une pièce. Branche « Valider et suivant → »."}, {"n": "Traitement-Suivante", "c": "VAL-PIE-087 : écriture verrouillée, correction par contrepassation. Pièce suivante déjà chargée."}, {"n": "Traitement-Fin", "c": "Fin de file : quatre pièces en neuf minutes, état vide « Toutes les pièces ont été traitées »."}]}, {"titre": "2b · Production : demander un complément", "pas": [{"n": "Pieces", "c": "Même point de départ."}, {"n": "Traitement", "c": "Branche « Demander un complément » cette fois."}, {"n": "Traitement-Complement", "c": "Choix du motif parmi cinq, commentaire, envoi par WhatsApp."}, {"n": "EntMessages", "c": "La demande arrive dans la messagerie de la cliente."}, {"n": "EntPieces-ActionRequise", "c": "La pièce bascule en « Action requise » : PIE-ETA-004, ambre."}]}, {"titre": "3 · Révision, TVA et visa", "pas": [{"n": "DosTVA", "c": "Comptes 443100 et 445100. « Valider la déclaration » est désarmé par ERR-PER-021 et ERR-LET-044 : essayez le bouton, puis l’état « anomalies levées »."}, {"n": "RevisionControle", "c": "Cycle B1 : écart de 17 500 FCFA, bandeau ambre AVT-REV-B1-017."}, {"n": "RevisionControle-Valide", "c": "Après justification : bandeau vert, écart nul, contrôle validé."}, {"n": "RevisionSynthese", "c": "Synthèse des cycles de révision."}, {"n": "DosRapportEditeur", "c": "Éditeur de plaquette : le visa ne s’appose qu’une fois les contrôles validés."}]}];
+const ROLES = [
+  ['site','Visiteur du site'],
+  ['cabinet','Cabinet · expert-comptable'],
+  ['mobile','Entreprise · téléphone'],
+  ['bureau','Entreprise · ordinateur']
+];
+const DEPART = {site:'Site',cabinet:'Main',mobile:'EntAccueil',bureau:'EntBureau'};
+let role='site', courant=null, pile=[], journal=[], parcours=null, pas=0;
+
+const $ = s => document.querySelector(s);
+const noms = Object.keys(CAT);
+
+// ----------------------------------------------------------------- rôles
+$('#roles').innerHTML = ROLES.map(([k,l]) =>
+  `<button type="button" data-r="${k}" aria-pressed="${k===role}">${l}</button>`).join('');
+$('#roles').addEventListener('click', e => {
+  const b = e.target.closest('button[data-r]'); if(!b) return;
+  role = b.dataset.r;
+  [...$('#roles').children].forEach(x => x.setAttribute('aria-pressed', x.dataset.r===role));
+  remplirEcrans();
+  aller(DEPART[role], 'sélecteur de rôle');
+});
+
+function espaceDe(n){ return CAT[n].e === 'acces' ? (role==='mobile'?'mobile':'cabinet') : CAT[n].e; }
+
+function remplirEcrans(){
+  const liste = noms.filter(n => CAT[n].e === role || (CAT[n].e==='acces' && (role==='cabinet'||role==='mobile')))
+                    .sort((a,b) => CAT[a].t.localeCompare(CAT[b].t,'fr'));
+  $('#ecran').innerHTML = liste.map(n => `<option value="${n}">${CAT[n].t}</option>`).join('')
+    + `<optgroup label="Tous les écrans">` +
+    noms.slice().sort((a,b)=>a.localeCompare(b,'fr')).map(n=>`<option value="${n}">${n}</option>`).join('')
+    + `</optgroup>`;
+}
+
+// ----------------------------------------------------------- états d'écran
+function variantes(n){
+  const base = CAT[n].b || n;
+  const v = [[base, 'Nominal']];
+  noms.filter(x => CAT[x].b === base).forEach(x => {
+    v.push([x, CAT[x].t.split('·').slice(1).join('·').trim() || x.slice(base.length+1)]);
+  });
+  return v;
+}
+function remplirEtats(){
+  const v = variantes(courant);
+  const dispo = v.length > 1;
+  $('#etat').innerHTML = v.map(([n,l]) => `<option value="${n}"${n===courant?' selected':''}>${l}</option>`).join('')
+    + `<option value="__leve">Simulation · anomalies levées</option>`;
+  $('#etat').disabled = false;
+  $('#etat').title = dispo ? '' : 'Cet écran n’a pas de variante enregistrée';
+}
+$('#etat').addEventListener('change', e => {
+  if(e.target.value === '__leve'){ leverAnomalies(); e.target.value = courant; return; }
+  aller(e.target.value, 'sélecteur d’état');
+});
+$('#ecran').addEventListener('change', e => aller(e.target.value, 'sélecteur d’écran'));
+
+// --------------------------------------------------------------- navigation
+function aller(n, origine, sansPile){
+  if(!CAT[n]) { toast('Écran inconnu', n); return; }
+  if(courant && !sansPile) pile.push(courant);
+  courant = n;
+  const e = CAT[n].e;
+  if(e !== 'acces' && e !== role && !(e==='bureau'&&role==='cabinet')) {
+    role = (e==='acces') ? role : e;
+    [...$('#roles').children].forEach(x => x.setAttribute('aria-pressed', x.dataset.r===role));
+    remplirEcrans();
+  }
+  $('#ecran').value = n;
+  $('#vue').src = 'ecrans/' + n + '.dc.html';
+  $('#fil').textContent = CAT[n].t + ' · ' + n;
+  $('#retour').disabled = !pile.length;
+  dimensionner();
+  remplirEtats();
+  if(origine) noter(n, origine, 'affichage de l’écran');
+}
+$('#retour').addEventListener('click', () => { const p = pile.pop(); if(p) aller(p,'bouton retour',true); });
+
+function dimensionner(){
+  const {w,h} = CAT[courant];
+  const cadre = $('#cadre'), f = $('#vue');
+  f.width = w; f.height = h;
+  f.style.width = w+'px'; f.style.height = h+'px';
+  cadre.classList.toggle('tel', w <= 400);
+  const dispo = document.querySelector('main').clientWidth - 32;
+  const k = Math.min(1, dispo / w);
+  cadre.style.width = w+'px'; cadre.style.height = h+'px';
+  cadre.style.transform = 'scale('+k+')';
+  cadre.style.marginBottom = (h*k - h) + 'px';
+}
+addEventListener('resize', () => courant && dimensionner());
+
+// ------------------------------------------------- interception dans l'écran
+$('#vue').addEventListener('load', () => {
+  const d = $('#vue').contentDocument; if(!d) return;
+  // un bouton désarmé n'émettrait aucun clic : on garde son apparence et on explique
+  d.querySelectorAll('[disabled]').forEach(x => {
+    x.removeAttribute('disabled'); x.setAttribute('aria-disabled','true'); x.dataset.desarme = '1';
+  });
+  d.addEventListener('click', ev => {
+    const a = ev.target.closest && ev.target.closest('a[href]');
+    if(a){
+      const h = a.getAttribute('href');
+      if(/\.dc\.html$/.test(h)){ ev.preventDefault(); aller(h.replace('.dc.html',''), libelle(a)); return; }
+      ev.preventDefault();
+      const c = deduire(a);
+      if(c){ aller(c, libelle(a)); return; }
+      toast(libelle(a), 'Lien de démonstration : la maquette ne porte pas d’écran pour cette entrée.');
+      noter(courant, libelle(a), 'accusé de démonstration'); return;
+    }
+    const b = ev.target.closest && ev.target.closest('button,[role="button"]');
+    if(b){
+      ev.preventDefault();
+      if(b.getAttribute('role') === 'tab'){ onglet(b); return; }
+      if(b.getAttribute('aria-disabled') === 'true' || b.disabled){
+        toast(libelle(b), 'Commande désarmée par une anomalie bloquante. Le sélecteur « État » permet de la lever en simulation.');
+        noter(courant, libelle(b), 'commande désarmée'); return;
+      }
+      const cible = deduire(b, d);
+      if(cible){ aller(cible, libelle(b)); return; }
+      toast(libelle(b), 'Commande de démonstration : la maquette ne porte pas encore d’écran pour cette action.');
+      noter(courant, libelle(b), 'accusé de démonstration');
+    }
+  }, true);
+});
+function libelle(e){ return (e.textContent || e.getAttribute('aria-label') || 'contrôle').trim().slice(0,56) || 'contrôle'; }
+
+function onglet(b){
+  const liste = b.closest('[role="tablist"]'); if(!liste) return;
+  [...liste.querySelectorAll('[role="tab"]')].forEach(t => {
+    const actif = t === b;
+    t.setAttribute('aria-selected', actif);
+    t.style.background = actif ? '#0F120D' : 'transparent';
+    t.style.color = actif ? '#FFFFFF' : '#0F120D';
+  });
+  noter(courant, libelle(b), 'onglet sélectionné');
+}
+
+// un bouton sans cible propre hérite de l'écran que son libellé désigne
+const MOTS = [
+  [/pièce|justificatif|dépôt/i, {cabinet:'Pieces', mobile:'EntPieces'}],
+  [/tva|déclaration/i, {cabinet:'DosTVA', mobile:'EntAccueil'}],
+  [/révision|contrôle/i, {cabinet:'Revision', mobile:'EntAccueil'}],
+  [/balance/i, {cabinet:'DosBalance'}],
+  [/grand livre|écriture/i, {cabinet:'DosGrandLivre'}],
+  [/facture/i, {cabinet:'DosFacturation', mobile:'EntFactures'}],
+  [/message|échange/i, {cabinet:'CabMessagerie', mobile:'EntMessages'}],
+  [/dossier/i, {cabinet:'DosTableau'}],
+  [/fonctionnalité/i, {site:'ProductionComptable', cabinet:'ProductionComptable'}],
+  [/tarif|prix/i, {site:'Tarifs'}],
+  [/sécurité|confidentialité|données personnelles/i, {site:'Confidentialite', cabinet:'Confidentialite'}],
+  [/mentions légales/i, {site:'MentionsLegales'}],
+  [/question|aide|tutoriel|assistance/i, {site:'Aide', cabinet:'Aide', mobile:'EntMessages'}],
+  [/blog|article/i, {site:'Blog'}],
+  [/démonstration|rendez-vous|nous écrire|contact/i, {site:'Contact', cabinet:'ContactCabinet'}],
+  [/partager|document|ged/i, {cabinet:'CabGED', mobile:'EntPieces'}],
+  [/trésorerie|banque|mobile money/i, {cabinet:'DosBanques', mobile:'EntTresorerie'}],
+  [/frais|dépense/i, {cabinet:'DosFrais', mobile:'EntFrais'}],
+  [/profil|compte|paramètre/i, {cabinet:'CabProfil', mobile:'EntProfil'}]
+];
+function deduire(b, d){
+  const t = libelle(b);
+  for(const [re,c] of MOTS){
+    if(re.test(t)){
+      const n = c[espaceDe(courant)] || c.cabinet;
+      if(n && CAT[n] && n !== courant) return n;
+    }
+  }
+  return null;
+}
+
+function leverAnomalies(){
+  const d = $('#vue').contentDocument; if(!d) return;
+  let n = 0;
+  d.querySelectorAll('[aria-disabled="true"],[disabled]').forEach(b => {
+    b.disabled = false; b.removeAttribute('aria-disabled'); delete b.dataset.desarme;
+    b.style.background = '#A8E05F'; b.style.color = '#0F120D'; b.style.cursor = 'pointer';
+    n++;
+  });
+  d.querySelectorAll('[role="alert"]').forEach(a => {
+    if(/ERR-|AVT-/.test(a.textContent)){ a.style.display = 'none'; n++; }
+  });
+  toast('Simulation · anomalies levées',
+    n ? n + ' élément(s) modifié(s) : les commandes désarmées sont réarmées et les bandeaux bloquants masqués. La maquette d’origine est rétablie en rechargeant l’écran.'
+      : 'Cet écran ne porte ni commande désarmée ni bandeau bloquant.');
+  noter(courant, 'sélecteur d’état', 'anomalies levées en simulation');
+}
+
+// ------------------------------------------------------------------ parcours
+$('#parcours').innerHTML = '<option value="">—</option>' +
+  PARCOURS.map((p,i) => `<option value="${i}">${p.titre}</option>`).join('');
+$('#parcours').addEventListener('change', e => {
+  parcours = e.target.value === '' ? null : PARCOURS[+e.target.value];
+  pas = 0;
+  if(parcours) etape(0); else { $('#pas').textContent = ''; $('#consigne').textContent = ''; }
+});
+$('#suiv').addEventListener('click', () => parcours && etape(pas + 1));
+$('#prec').addEventListener('click', () => parcours && etape(pas - 1));
+function etape(k){
+  if(!parcours) return;
+  pas = Math.max(0, Math.min(k, parcours.pas.length - 1));
+  const e = parcours.pas[pas];
+  aller(e.n, 'parcours ' + parcours.titre);
+  $('#pas').textContent = 'Étape ' + (pas+1) + ' / ' + parcours.pas.length;
+  $('#consigne').textContent = e.c;
+  $('#prec').disabled = pas === 0;
+  $('#suiv').disabled = pas === parcours.pas.length - 1;
+}
+
+// ------------------------------------------------------------------- journal
+function noter(ecran, controle, action){
+  journal.push({h:new Date().toLocaleTimeString('fr-FR'), e:ecran, c:controle, a:action});
+  $('#compteur').textContent = journal.length;
+  const l = document.createElement('div');
+  l.innerHTML = '<strong>' + controle + '</strong><br>' + action +
+    '<span class="q"> · ' + ecran + ' · ' + journal[journal.length-1].h + '</span>';
+  $('#lignes').prepend(l);
+}
+$('#ouvrirJournal').addEventListener('click', () => $('#journal').classList.add('ouvert'));
+$('#fermerJournal').addEventListener('click', () => $('#journal').classList.remove('ouvert'));
+$('#exporter').addEventListener('click', () => {
+  const t = journal.map(x => [x.h,x.e,x.c,x.a].join(' · ')).join('\n');
+  try{ navigator.clipboard.writeText(t); toast('Journal copié', journal.length + ' ligne(s) dans le presse-papiers.'); }
+  catch(e){ toast('Copie indisponible', 'Le journal reste lisible dans ce panneau.'); }
+});
+
+let minuteur;
+function toast(titre, texte){
+  $('#toast').innerHTML = '<strong>' + titre + '</strong><span class="note">' + texte + '</span>';
+  $('#toast').classList.add('vu');
+  clearTimeout(minuteur); minuteur = setTimeout(() => $('#toast').classList.remove('vu'), 4200);
+}
+
+remplirEcrans();
+aller('Site', null, true);
+</script>
+
+</body>
+</html>

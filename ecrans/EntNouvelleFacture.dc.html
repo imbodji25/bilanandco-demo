@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Nouvelle facture (téléphone)</title>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&amp;family=IBM+Plex+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}a{color:#0F120D}a:hover{color:#1C3A0B}.num{font-variant-numeric:tabular-nums}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visible{outline:2px solid #0F120D;outline-offset:2px}body{background:#FFFFFF}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FFFFFF; color: #0F120D; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px;">
+<div style="height: 844px; overflow-y: auto; box-sizing: border-box; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 12px;"><a href="EntFactures.dc.html" aria-label="Retour" style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 9999px; border: 1px solid #D5DAD0; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 700;">←</a><h1 style="margin: 0; flex-grow: 1; font-size: 20px; line-height: 26px; font-weight: 700;">Nouvelle facture</h1></div>
+<section style="padding:16px 0 14px;border-radius:0;background:transparent;border-top:1px solid #E4E6E1;display:flex;flex-direction:column;gap:8px;"><label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client<select style="height:46px;box-sizing:border-box;padding:10px 14px;border:1px solid #0F120D;border-radius:12px;background:#FFFFFF;font:400 15px/20px 'Plus Jakarta Sans',sans-serif;color:#0F120D;width:100%;"><option>Restaurant Chez Fatou · Thiès</option><option>Supermarché Le Baobab · Dakar</option><option>Nouveau client…</option></select></label><span style="font-size:12px;line-height:16px;color:#646862">Dernier paiement : Orange Money, en 7 jours.</span></section>
+<section style="padding:16px 0 14px;border-radius:0;background:transparent;border-top:1px solid #E4E6E1;display:flex;flex-direction:column;gap:8px;gap:0"><div style="display:flex;align-items:center;padding-bottom:8px"><strong style="flex-grow:1;font-size:15px">Articles</strong><button type="button" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px;padding: 0 14px;border:1px solid #D5DAD0;border-radius: 22px;background:#FFFFFF;font:600 13px/20px 'Plus Jakarta Sans',sans-serif;cursor:pointer">Ajouter</button></div><div class="num" style="display:flex;gap:8px;align-items:center;padding:10px 0;border-top:1px solid #E4E6E1;font-size:14px;line-height:20px"><span style="flex-grow:1"><strong>Oignons</strong><br><span style="color:#454845">500 kg × 350 FCFA</span></span><strong>175 000</strong></div><div class="num" style="display:flex;gap:8px;align-items:center;padding:10px 0;border-top:1px solid #E4E6E1;font-size:14px;line-height:20px"><span style="flex-grow:1"><strong>Tomates</strong><br><span style="color:#454845">200 kg × 450 FCFA</span></span><strong>90 000</strong></div><div class="num" style="display:flex;align-items:baseline;padding-top:12px;border-top:1px solid #0F120D"><span style="flex-grow:1;font-weight:600">Total</span><span style="font-family:'Bricolage Grotesque','Plus Jakarta Sans',sans-serif;font-weight:800;font-size:28px;line-height:32px">265 000 FCFA</span></div></section>
+<section style="padding:16px 0 14px;border-radius:0;background:transparent;border-top:1px solid #E4E6E1;display:flex;flex-direction:column;gap:8px;"><div style="display:flex;gap:10px"><label style="flex:1;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Date<input value="04/11/2026" style="height:46px;box-sizing:border-box;padding:10px 14px;border:1px solid #0F120D;border-radius:12px;background:#FFFFFF;font:400 15px/20px 'Plus Jakarta Sans',sans-serif;color:#0F120D;width:100%;"></label><label style="flex:1;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Échéance<select style="height:46px;box-sizing:border-box;padding:10px 14px;border:1px solid #0F120D;border-radius:12px;background:#FFFFFF;font:400 15px/20px 'Plus Jakarta Sans',sans-serif;color:#0F120D;width:100%;"><option>15 jours · 19/11/2026</option><option>À réception</option><option>30 jours</option></select></label></div>
+<div style="display:flex;align-items:center;gap:10px;padding-top:4px"><span style="flex-grow:1;font-size:14px;line-height:20px"><strong>Lien de paiement</strong><br><span style="color:#454845">Wave et Orange Money</span></span><span role="switch" aria-checked="true" tabindex="0" style="flex-shrink:0;width:44px;height:26px;border-radius:26px;background:#0F120D;position:relative;display:inline-block"><span style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:20px;background:#A8E05F"></span></span></div></section>
+<a href="EntFactureCreee.dc.html" style="display: inline-flex; align-items: center; justify-content: center; height: 44px;box-sizing:border-box;padding: 0 24px;border:0;border-radius: 22px;background:#A8E05F;color:#0F120D;text-align:center;text-decoration:none;font:600 16px/24px 'Plus Jakarta Sans',sans-serif;cursor:pointer;">Envoyer par WhatsApp</a>
+<button type="button" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px;border:1px solid #D5DAD0;border-radius: 22px;background:#FFFFFF;font:600 15px/22px 'Plus Jakarta Sans',sans-serif;cursor:pointer">Enregistrer en brouillon</button>
+<span style="text-align:center;font-size:12px;line-height:16px;color:#646862">Facture F-2026-0094 · envoyée, elle ne se modifie plus : elle se corrige par un avoir.</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":860}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

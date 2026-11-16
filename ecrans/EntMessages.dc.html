@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Messages avec le cabinet</title>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&amp;family=IBM+Plex+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0F120D}a:hover{color:#1C3A0B}
+.num{font-variant-numeric:tabular-nums}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #0F120D;outline-offset:2px}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FFFFFF; color: #0F120D; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px;">
+
+<div style="padding: 16px; background: #FFFFFF; border-bottom: 1px solid #E4E6E1; display: flex; align-items: center; gap: 12px;">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 9999px; background: #0F120D; color: #A8E05F; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">AN</span>
+<div style="flex-grow: 1; display: flex; flex-direction: column;">
+<h1 style="margin: 0; font-size: 16px; line-height: 22px; font-weight: 700;">Cabinet Ndiaye &amp; Associés</h1>
+<span style="font-size: 13px; line-height: 18px; color: #454845;">Awa Ndiaye, expert-comptable</span>
+</div>
+</div>
+
+<div style="height: 590px; overflow-y: auto; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<span style="align-self: center; font-size: 12px; line-height: 16px; color: #646862;">Lundi 26/10/2026</span>
+
+<div style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; align-self: flex-start; max-width: 300px; padding: 0 16px; border-radius: 22px 20px 20px 6px; background: #FFFFFF; font-size: 15px; line-height: 44px;">Bonjour Awa, il nous manque deux pièces pour clôturer octobre. Pouvez-vous les photographier ?</div>
+
+<div style="align-self: flex-start; width: 300px; box-sizing: border-box; padding: 14px 0 14px; border-radius: 0; background: transparent; border-top: 1px solid #E4E6E1; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.4px; color: #646862;">PIÈCES DEMANDÉES</span>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px;"><span style="flex-grow: 1;">Coopérative de Notto · 12/10/2026</span><span class="num" style="font-weight: 700;">60 000</span></div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px;"><span style="flex-grow: 1;">Quincaillerie Mbaye · 15/10/2026</span><span class="num" style="font-weight: 700;">27 500</span></div>
+<a href="EntDepot.dc.html" style="display: inline-flex; align-items: center; justify-content: center; margin-top: 4px; height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 22px; background: #A8E05F; text-align: center; text-decoration: none; font-size: 14px; line-height: 44px; font-weight: 600;">Photographier les pièces</a>
+</div>
+
+<div style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; align-self: flex-end; max-width: 280px; padding: 0 16px; border-radius: 22px 20px 6px 20px; background: #0F120D; color: #EEF1EA; font-size: 15px; line-height: 44px;">Bonjour, je vous envoie la facture Mbaye ce soir. Pour Notto, c'est un reçu à la main, ça suffit ?</div>
+
+<div style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; align-self: flex-start; max-width: 300px; padding: 0 16px; border-radius: 22px 20px 20px 6px; background: #FFFFFF; font-size: 15px; line-height: 44px;">Oui, un reçu signé suffit. Merci de préciser l'objet : location du tracteur ?</div>
+
+<span style="align-self: flex-end; font-size: 12px; line-height: 16px; color: #646862;">Lu à 16:42</span>
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 84px; padding: 10px 16px; background: #E9ECE5; display: flex; gap: 8px;">
+<label for="message" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Votre message</label>
+<input id="message" placeholder="Écrire au cabinet" style="display: inline-flex; align-items: center; justify-content: center; flex-grow: 1; height: 44px; box-sizing: border-box; padding: 0 16px; border: 1px solid #D5DAD0; border-radius: 22px; background: #FFFFFF; color: #0F120D; font: 400 15px/20px 'Plus Jakarta Sans', sans-serif;">
+<button type="button" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px; padding: 0 18px; border: 0; border-radius: 22px; background: #A8E05F; color: #0F120D; font: 600 14px/20px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Envoyer</button>
+</div>
+
+<nav aria-label="Navigation principale" style="position:absolute;left:12px;right:12px;bottom:14px;height:62px;box-sizing:border-box;padding:0 8px;border-radius:22px;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(15,18,13,.07);box-shadow:0 10px 30px rgba(15,18,13,.13);display:flex;align-items:center;gap:4px"><a href="EntAccueil.dc.html" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#6B6F6A"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.4 12 4l8 6.4V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M9.5 20.5v-6h5v6"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:500;letter-spacing:.1px">Accueil</span></a><a href="EntFactures.dc.html" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#6B6F6A"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-2.4-1.6L8.4 20.5 6 18.9z"/><path d="M9.3 8h5.4M9.3 12h5.4"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:500;letter-spacing:.1px">Factures</span></a><a href="EntDepot.dc.html" aria-label="Déposer une pièce" style="flex-shrink:0;width:46px;height:46px;border-radius:16px;background:#A8E05F;color:#0F120D;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 2px 8px rgba(15,18,13,.18)"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v12M6 12h12"/></svg></a><a href="EntFrais.dc.html" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#6B6F6A"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5h17v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M3.5 8.5 6 4h12l2.5 4.5"/><path d="M9.5 13h5"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:500;letter-spacing:.1px">Frais</span></a><a href="EntMessages.dc.html" aria-current="page" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#0F120D"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;background:#E6F5D3;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12.5c0 3.9-3.8 7-8.5 7a9.8 9.8 0 0 1-2.6-.35L4 21l1.3-3.4A6.6 6.6 0 0 1 3.5 12.5c0-3.9 3.8-7 8.5-7s8.5 3.1 8.5 7z"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:700;letter-spacing:.1px">Messages</span></a></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":860}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

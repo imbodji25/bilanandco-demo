@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Factures clients</title>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&amp;family=IBM+Plex+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0F120D}a:hover{color:#1C3A0B}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500}
+button:focus-visible,a:focus-visible{outline:2px solid #0F120D;outline-offset:2px}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FFFFFF; color: #0F120D; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px;">
+<div style="height: 844px; overflow-y: auto; box-sizing: border-box; padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 14px;">
+
+<div style="display: flex; align-items: center; gap: 12px;">
+<h1 style="margin: 0; flex-grow: 1; font-size: 21px; line-height: 27px; font-weight: 700; letter-spacing: -0.4px;">Factures</h1>
+<a href="EntNouvelleFacture.dc.html" style="display: inline-flex; align-items: center; justify-content: center; height: 44px; box-sizing: border-box; padding: 0 18px; border-radius: 22px; background: #A8E05F; color: #0F120D; font: 600 14px/20px 'Plus Jakarta Sans', sans-serif; text-decoration: none;">Nouvelle facture</a>
+</div>
+
+<div role="group" aria-label="Filtrer" style="display: flex; gap: 4px; padding: 3px; border-radius: 9999px; border: 1px solid #E4E6E1; align-self: flex-start;">
+<button type="button" aria-pressed="true" style="padding: 6px 14px; border: 0; border-radius: 9999px; background: #0F120D; color: #FFFFFF; font: 600 13px/20px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Impayées · 3</button>
+<button type="button" aria-pressed="false" style="padding: 6px 14px; border: 0; border-radius: 9999px; background: transparent; color: #0F120D; font: 600 13px/20px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Payées</button>
+<button type="button" aria-pressed="false" style="padding: 6px 14px; border: 0; border-radius: 9999px; background: transparent; color: #0F120D; font: 600 13px/20px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Devis</button>
+</div>
+
+<section style="padding: 20px 0 14px; border-radius: 0; background: transparent; border-top: 1px solid #E4E6E1; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: flex-start; gap: 8px;">
+<div style="flex-grow: 1; display: flex; flex-direction: column;">
+<a href="EntFacture.dc.html" style="font-size: 16px; line-height: 22px; font-weight: 700; text-decoration: none;">Supermarché Le Baobab · Dakar</a>
+<span class="mono" style="font-size: 12px; line-height: 18px; color: #646862;">F-2026-0087 · 1,6 tonne d'oignons</span>
+</div>
+<span style="color: #C42F37; font-size: 12px; line-height: 18px; font-weight: 600;">Retard 12 j</span>
+</div>
+<div style="display: flex; align-items: baseline; gap: 8px;">
+<span class="num" style="flex-grow: 1; font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 21px; line-height: 26px;">640 000 FCFA</span>
+<span style="font-size: 13px; line-height: 18px; color: #454845;">échue le 23/10/2026</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<button type="button" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px; padding: 0 16px; border: 0; border-radius: 22px; background: #A8E05F; color: #0F120D; font: 600 14px/20px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Relancer par WhatsApp</button>
+<button type="button" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px; padding: 0 16px; border: 1px solid #D5DAD0; border-radius: 22px; background: #FFFFFF; color: #0F120D; font: 600 14px/20px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Copier le lien Wave</button>
+</div>
+<span style="font-size: 12px; line-height: 16px; color: #646862;">Le message contient un lien de paiement Wave ou Orange Money. Le paiement reçu est rapproché automatiquement.</span>
+</section>
+
+<section style="padding: 16px 0 14px; border-radius: 0; background: transparent; border-top: 1px solid #E4E6E1; display: flex; align-items: center; gap: 12px;">
+<div style="flex-grow: 1; display: flex; flex-direction: column;">
+<a href="EntFacture.dc.html" style="font-size: 15px; line-height: 20px; font-weight: 700; text-decoration: none;">Restaurant Chez Fatou · Thiès</a>
+<span class="mono" style="font-size: 12px; line-height: 18px; color: #646862;">F-2026-0091 · échéance 08/11/2026</span>
+</div>
+<span class="num" style="font-weight: 700;">385 000</span>
+</section>
+
+<section style="padding: 16px 0 14px; border-radius: 0; background: transparent; border-top: 1px solid #E4E6E1; display: flex; align-items: center; gap: 12px;">
+<div style="flex-grow: 1; display: flex; flex-direction: column;">
+<a href="EntFacture.dc.html" style="font-size: 15px; line-height: 20px; font-weight: 700; text-decoration: none;">Cantine scolaire de Thiès</a>
+<span class="mono" style="font-size: 12px; line-height: 18px; color: #646862;">F-2026-0093 · échéance 15/11/2026</span>
+</div>
+<span class="num" style="font-weight: 700;">250 000</span>
+</section>
+
+<div style="display: flex; align-items: center; gap: 8px; padding: 0 4px;">
+<span style="flex-grow: 1; font-size: 14px; line-height: 20px; color: #454845;">Total à encaisser</span>
+<span class="num" style="font-weight: 700;">1 275 000 FCFA</span>
+</div>
+
+<section style="box-sizing: border-box; height: 44px; padding: 0 20px; border-radius: 22px; background: #E6F5D3; color: #1C3A0B; display: flex; align-items: center; gap: 12px;">
+<div style="flex-grow: 1; display: flex; flex-direction: column;">
+<strong style="font-size: 14px; line-height: 20px;">Payée hier par Wave</strong>
+<span style="font-size: 13px; line-height: 18px;">Grossiste Diallo · F-2026-0084</span>
+</div>
+<span class="num" style="font-weight: 700;">520 000</span>
+</section>
+
+</div>
+
+<nav aria-label="Navigation principale" style="position:absolute;left:12px;right:12px;bottom:14px;height:62px;box-sizing:border-box;padding:0 8px;border-radius:22px;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(15,18,13,.07);box-shadow:0 10px 30px rgba(15,18,13,.13);display:flex;align-items:center;gap:4px"><a href="EntAccueil.dc.html" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#6B6F6A"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.4 12 4l8 6.4V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M9.5 20.5v-6h5v6"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:500;letter-spacing:.1px">Accueil</span></a><a href="EntFactures.dc.html" aria-current="page" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#0F120D"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;background:#E6F5D3;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-2.4-1.6L8.4 20.5 6 18.9z"/><path d="M9.3 8h5.4M9.3 12h5.4"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:700;letter-spacing:.1px">Factures</span></a><a href="EntDepot.dc.html" aria-label="Déposer une pièce" style="flex-shrink:0;width:46px;height:46px;border-radius:16px;background:#A8E05F;color:#0F120D;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 2px 8px rgba(15,18,13,.18)"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v12M6 12h12"/></svg></a><a href="EntFrais.dc.html" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#6B6F6A"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5h17v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M3.5 8.5 6 4h12l2.5 4.5"/><path d="M9.5 13h5"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:500;letter-spacing:.1px">Frais</span></a><a href="EntMessages.dc.html" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;text-decoration:none;color:#6B6F6A"><span style="display:flex;align-items:center;justify-content:center;width:46px;height:26px;border-radius:13px;"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12.5c0 3.9-3.8 7-8.5 7a9.8 9.8 0 0 1-2.6-.35L4 21l1.3-3.4A6.6 6.6 0 0 1 3.5 12.5c0-3.9 3.8-7 8.5-7s8.5 3.1 8.5 7z"/></svg></span><span style="font-size:10px;line-height:14px;font-weight:500;letter-spacing:.1px">Messages</span></a></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":860}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
