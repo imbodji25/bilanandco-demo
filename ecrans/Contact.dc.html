@@ -19,6 +19,11 @@ summary::marker{color:#1E7A3B}
 @media (max-width:700px){.hero-desk{display:none}.hero-phone{right:50%!important;transform:translateX(50%)}h1{font-size:34px!important;line-height:38px!important}.site-nav,.site-login,.site-cta{display:none!important}.site-menu{display:flex!important}}
 
 .ct-r{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}.ct-f{display:none!important}#ct-cab:checked~.ct-wrap .ct-f-cab,#ct-ent:checked~.ct-wrap .ct-f-ent,#ct-sup:checked~.ct-wrap .ct-f-sup{display:flex!important}#ct-cab:checked~.ct-wrap .ct-c-cab,#ct-ent:checked~.ct-wrap .ct-c-ent,#ct-sup:checked~.ct-wrap .ct-c-sup{border-color:#0F120D!important;color:#0F120D}.ct-c:hover{border-color:#0F120D!important}
+
+/* gabarit des commandes : la bordure tient dans la hauteur, et un conteneur étiré ne la déforme pas */
+[style*="height: 44px"],[style*="height:44px"]{min-height:44px;max-height:44px;flex-shrink:0;box-sizing:border-box}
+[style*="height: 40px"],[style*="height:40px"],[style*="width: 40px"],[style*="width:40px"]{box-sizing:border-box}
+[style*="height: 40px"],[style*="height:40px"]{max-height:40px}
 </style>
 </helmet>
 <div style="background:#FFFFFF;color:#0F120D;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:16px;line-height:24px">

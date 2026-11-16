@@ -16,17 +16,15 @@ a{color:#0F120D}a:hover{color:#1C3A0B}
 .num{font-variant-numeric:tabular-nums}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #0F120D;outline-offset:2px}
 
-.sq{background:#EDEEEA;border-radius:4px;display:block;position:relative;overflow:hidden}
-.sq::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
- background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 100%);
- animation:sqb 1.6s ease-in-out infinite}
-@keyframes sqb{100%{transform:translateX(100%)}}
-@media (prefers-reduced-motion: reduce){.sq::after{animation:none}.sq{opacity:.85}}
+/* gabarit des commandes : la bordure tient dans la hauteur, et un conteneur étiré ne la déforme pas */
+[style*="height: 44px"],[style*="height:44px"]{min-height:44px;max-height:44px;flex-shrink:0;box-sizing:border-box}
+[style*="height: 40px"],[style*="height:40px"],[style*="width: 40px"],[style*="width:40px"]{box-sizing:border-box}
+[style*="height: 40px"],[style*="height:40px"]{max-height:40px}
 </style>
 </helmet>
 <div style="min-height: 894px; display: flex; flex-wrap: wrap; background: #FFFFFF; color: #0F120D; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px;">
 
-<nav aria-label="Navigation principale" style="flex: 1 0 224px; max-width: 100%; box-sizing: border-box; padding: 18px 14px; border-right: 1px solid #E4E6E1; border-right: 1px solid #E4E6E1; display: flex; flex-direction: column; gap: 24px;">
+<nav aria-label="Navigation principale" style="flex: 1 0 224px; max-width: 100%; box-sizing: border-box; padding: 18px 14px; border-right: 1px solid #E4E6E1; display: flex; flex-direction: column; gap: 24px;">
 <div style="display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; padding: 0 12px; font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 26px; line-height: 28px; letter-spacing: -0.5px;"><svg aria-hidden="true" width="32.62" height="18" viewBox="0 0 58 32" style="flex-shrink:0"><defs><clipPath id="bl2"><rect x="0" y="0" width="32" height="32" rx="10"></rect></clipPath></defs><rect x="0" y="0" width="32" height="32" rx="10" fill="#0F120D"></rect><rect x="26" y="0" width="32" height="32" rx="10" fill="#A8E05F"></rect><g clip-path="url(#bl2)"><rect x="26" y="0" width="32" height="32" rx="10" fill="#E6F5D3"></rect></g></svg><span>Bilan<span style="color: #1C3A0B;">&amp;</span>Co</span></div>
 <div style="padding: 12px; border-radius: 12px; background: #FFFFFF; display: flex; flex-direction: column; gap: 2px;">
 <span style="font-size: 11px; line-height: 15px; font-weight: 600; letter-spacing: 0.3px; color: #646862;">CABINET</span>

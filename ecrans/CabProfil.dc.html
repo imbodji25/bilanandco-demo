@@ -15,6 +15,11 @@ a{color:#0F120D}a:hover{color:#1C3A0B}
 .num{font-variant-numeric:tabular-nums}
 .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #0F120D;outline-offset:2px}
+
+/* gabarit des commandes : la bordure tient dans la hauteur, et un conteneur étiré ne la déforme pas */
+[style*="height: 44px"],[style*="height:44px"]{min-height:44px;max-height:44px;flex-shrink:0;box-sizing:border-box}
+[style*="height: 40px"],[style*="height:40px"],[style*="width: 40px"],[style*="width:40px"]{box-sizing:border-box}
+[style*="height: 40px"],[style*="height:40px"]{max-height:40px}
 </style>
 </helmet>
 <div style="min-height: 1464px; display: flex; flex-direction: column; background: #FFFFFF; color: #0F120D; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px;">
